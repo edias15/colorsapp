@@ -4,8 +4,6 @@ const fs = require('fs')
 const mysql = require('mysql2')
 require('dotenv').config()
 
-const dev = app.isPackaged
-
 let conn, win, progressInterval
 
 function connect () {
@@ -17,17 +15,10 @@ function connect () {
 			database: process.env.DB_NAME,
 			port: process.env.DB_PORT,
     }));
-    console.log('Connected to database')
 	} catch (error) {
 		console.log(error);
 	}
 }connect()
-
-if (dev) {
-  require('electron-reload')(__dirname, {
-    electron: path.join(__dirname, 'node_modules', '.bin', 'electron')
-  })
-}
 
 function createWindow () {
   win = new BrowserWindow({
@@ -39,9 +30,6 @@ function createWindow () {
       contextIsolation: false
     }
   })
-  if (dev) {
-    win.webContents.openDevTools()
-  }
   win.loadFile('index.html')
 }
 
