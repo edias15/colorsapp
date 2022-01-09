@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <!-- https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP -->
+    <meta http-equiv="X-Content-Security-Policy" content="default-src 'self'; script-src 'self'">
+    <title>My Colors</title>
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body>
+    <form autocomplete="off" onsubmit="onFormSubmit">
+      <div class="app-container">
+        <div class="row-container">
+          <div class="col-container">
+            <div class="col1-title">
+              <strong class="actual">Actual</strong>
+            </div>
+            <div id='card-1' class="col1-container">
+              <h2 class="font-card-1" id="name-container"/>
+            </div>
+            <div class="input-container">
+              <input
+              class="input-hexcolor"
+              id="hexColor"
+              type="text"
+              required
+              autofocus
+              maxlength="6"
+              minlength="3"
+              pattern="^{#}([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$"
+              placeholder="Hexa code"
+              />
+              <input
+                required
+                id="nameInput"
+                label="Name"
+                type="text"
+                maxlength="20"
+                minlength="3"
+                placeholder="Name's color"
+              />
+            </div>
+          </div>
+          <div class="col-container">
+            <div class="col1-title">
+              <strong class="nearest">Nearest</strong>
+            </div>
+            <div id='card-2' class="col2-container">
+              <h2 class="font-card-2" id="name-container-nearest"/>
+            </div>
+            <div class="button-container">
+              <button id="button" onclick="handleButton()" ></button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+    <div id="myProgress" display="none">
+      <div id="myBar" display="none"></div>
+      <span id="myMsg" display="none">Searching in database</span>
+    </div>
+  </body>
+  <script src="./renderer.js"></script>
+  <script type="text/javascript" src="ntc.js"></script>
+
+  <script type="text/javascript">
+    const n_match  = ntc.name(document.getElementById("hexColor").value);
+    const n_rgb = n_match[0]; // This is the RGB value of the closest matching color
+    const n_name = n_match[1]; // This is the text string for the name of the match
+    const n_exactmatch = n_match[2]; // True if exact color match, False if close-match
+//    alert(n_match);
+</script>
+</html>
