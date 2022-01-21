@@ -31,13 +31,28 @@ function createWindow () {
     }
   })
   win.loadFile('index.html')
+  win.webContents.openDevTools()
 }
 
 ipcMain.on('add-color', (event, color) => {
-  const sql_insert = `INSERT INTO color (hex, name) VALUES (${color.hex}, ${color.name})`
-  conn.query(sql_insert, (err, results) => {
+  color.name = color.name.trim()
+  const sql = `SELECT * FROM color WHERE name = ${color.name}`
+  conn.query(sql, (err, result) => {
     if (err) {
       console.log(err)
+    } else {
+      if (result.length === 0) {
+        const sql = `INSERT INTO color (name, hex) VALUES (${color.name}, ${color.hex})`
+        conn.query(sql, (err, result) => {
+          if (err) {
+            console.log(err)
+          } else {
+            event.sender.send('color-name-reply', 'Color added')
+          }
+        })
+      } else {
+        event.sender.send('color-name-reply', 'Name already exists in DB. ' + color.hex + ' - ' + color.name)
+      }
     }
   })
 })
@@ -45,7 +60,7 @@ ipcMain.on('add-color', (event, color) => {
 ipcMain.on('color-name', (event, data) => {
   event.sender.send('show-bar', 1)
   
-  const sql = `SELECT name FROM color WHERE hex = '${data}'`
+  const sql = `SELECT name FROM color WHERE hex = ${data}`
   conn.query(sql, (err, result ) => {
     if (err) {
       console.log(err)
