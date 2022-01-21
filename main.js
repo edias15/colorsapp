@@ -35,7 +35,7 @@ function createWindow () {
 
 ipcMain.on('add-color', (event, color) => {
   color.name = color.name.trim()
-  const sql = `SELECT * FROM color WHERE name = ${color.name}`
+  const sql = `SELECT hex FROM color WHERE name = ${color.name}`
   conn.query(sql, (err, result) => {
     if (err) {
       console.log(err)
@@ -50,7 +50,7 @@ ipcMain.on('add-color', (event, color) => {
           }
         })
       } else {
-        event.sender.send('color-name-reply', 'Name already exists in DB. ' + color.hex + ' - ' + color.name)
+        event.sender.send('color-name-reply', 'Name already exists in DB. ' + result[0].hex + ' - ' + color.name)
       }
     }
   })
