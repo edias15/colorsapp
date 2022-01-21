@@ -14,5 +14,8 @@
   "devDependencies": {
     "dotenv": "^10.0.0",
     "mysql2": "^2.3.3"
+  },
+  "dependencies": {
+    "selenium-webdriver": "^4.1.1"
   }
 }

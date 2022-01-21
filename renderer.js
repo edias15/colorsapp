@@ -64,10 +64,12 @@ ipcRenderer.on('color-name-reply', (event, arg) => {
     document.getElementById('nameInput').focus()
     document.getElementById('nameInput').select()
   } else if (arg.indexOf('Name already exists in DB. ') === 0) {
-    alert(arg)
+    document.getElementById('name-container').innerHTML = arg
+    document.getElementById('button').innerText = 'CLEAR'
+    document.getElementById('button').style.display = "block"
     document.getElementById('hexColor').focus()
   } else if (arg === 'Color added') {
-    alert(arg);
+    document.getElementById('name-container').innerHTML = arg
     document.getElementById('name-container-nearest').innerHTML = ' '
     document.getElementById('card-1').style.backgroundColor = '#' + hex.toUpperCase()
     document.getElementById('card-2').style.backgroundColor = '#FFF'
