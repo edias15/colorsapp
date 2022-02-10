@@ -35,7 +35,7 @@ function createWindow () {
 
 ipcMain.on('add-color', (event, color) => {
   color.name = color.name.trim()
-  const sql = `SELECT hex FROM color WHERE name = ${color.name}`
+  const sql = `SELECT hex FROM color WHERE name = '${color.name}'`
   conn.query(sql, (err, result) => {
     if (err) {
       console.log(err)
@@ -59,7 +59,7 @@ ipcMain.on('add-color', (event, color) => {
 ipcMain.on('color-name', (event, data) => {
   event.sender.send('show-bar', 1)
   
-  const sql = `SELECT name FROM color WHERE hex = ${data}`
+  const sql = `SELECT name FROM color WHERE hex = '${data}'`
   conn.query(sql, (err, result ) => {
     if (err) {
       console.log(err)
