@@ -30,18 +30,19 @@ function createWindow () {
       contextIsolation: false
     }
   })
+  // win.webContents.openDevTools();
   win.loadFile('index.html')
 }
 
 ipcMain.on('add-color', (event, color) => {
-  color.name = color.name.trim()
-  const sql = `SELECT hex FROM color WHERE name = '${color.name}'`
+  nameColorTrimmed = color.name.trim()
+  const sql = `SELECT hex FROM color WHERE name = '${nameColorTrimmed}'`
   conn.query(sql, (err, result) => {
     if (err) {
       console.log(err)
     } else {
       if (result.length === 0) {
-        const sql = `INSERT INTO color (name, hex) VALUES (${color.name}, ${color.hex})`
+        const sql = `INSERT INTO color (name, hex) VALUES (${nameColorTrimmed}, ${color.hex})`
         conn.query(sql, (err, result) => {
           if (err) {
             console.log(err)
@@ -50,7 +51,7 @@ ipcMain.on('add-color', (event, color) => {
           }
         })
       } else {
-        event.sender.send('color-name-reply', 'Name already exists in DB. ' + result[0].hex + ' - ' + color.name)
+        event.sender.send('color-name-reply', 'Name already exists in DB. ' + result[0].hex + ' - ' + nameColorTrimmed)
       }
     }
   })

@@ -102,8 +102,8 @@ function handleButton () {
 
   function save() {
     const color = {
-      hex: `"${document.getElementById('hexColor').value}"`,
-      name: `"${document.getElementById('nameInput').value}"`
+      hex: `${document.getElementById('hexColor').value}`,
+      name: `${document.getElementById('nameInput').value}`
     }
     ipcRenderer.send('add-color', color)
   }
